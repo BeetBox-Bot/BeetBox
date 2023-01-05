@@ -4,10 +4,10 @@
   "description": "Discord bot to play Spotify and Youtube audio",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "BatteryRage",
+  "license": "MIT",
   "dependencies": {
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
