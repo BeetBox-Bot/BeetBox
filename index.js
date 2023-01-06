@@ -1,8 +1,11 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+
 const youtube = require('./services/youtube');
 const spotify = require('./services/spotify');
+
+const sc = require('./utilities/deploy-commands');
 
 // Load the .env file
 require('dotenv').config();
@@ -20,6 +23,8 @@ client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+sc;
 
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
