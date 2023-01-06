@@ -1,10 +1,12 @@
 const ytdl = require('ytdl-core');
-const { google } = require('googleapis');
+const { google, GoogleApis } = require('googleapis');
 
 const youtube = google.youtube({
     version: 'v3',
     auth: process.env.YOUTUBE_API_KEY,
 });
+
+console.log(youtube.auth)
 
 // Search for YouTube videos by keyword and return the first result
 const search = async (query, callback) => {

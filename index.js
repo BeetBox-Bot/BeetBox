@@ -8,7 +8,7 @@ const spotify = require('./services/spotify');
 const sc = require('./utilities/deploy-commands');
 
 // Load the .env file
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 const client = new Client({
     intents: [
@@ -16,16 +16,24 @@ const client = new Client({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.GuildPresences,
     ],
 });
 
-client.commands = new Collection();
+module.exports.client = client;
 
+// Reload slash commands when the bot starts
+sc;
+
+// Prep use of slash commands
+client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-sc;
-
+// Load slash commands
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
@@ -36,7 +44,7 @@ for (const file of commandFiles) {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
 }
-
+// Create an event listener for messages
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
