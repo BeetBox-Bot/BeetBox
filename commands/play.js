@@ -4,7 +4,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const ytdl = require('ytdl-core');
 const { google } = require('googleapis');
 
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config({path: '../.env'})
 
 const youtube = google.youtube({
     version: 'v3',
