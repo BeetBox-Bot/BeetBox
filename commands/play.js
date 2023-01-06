@@ -4,7 +4,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const ytdl = require('ytdl-core');
 const { google } = require('googleapis');
 
-const dotenv = require('dotenv').config({path: '../.env'})
+const dotenv = require('dotenv').config({ path: `${__dirname}/../.env` })
 
 const youtube = google.youtube({
     version: 'v3',
@@ -31,9 +31,15 @@ module.exports = {
 
 
         // Check if the query is a YouTube URL
-        if (query.includes('youtube.com')) {
-            // Play the YouTube video
-            playYoutubeVideo(query, interaction);
+        if (query.includes('youtube.com') || query.includes('youtu.be')) {
+            // Get the videoId from the YouTube URL
+            const videoId = query.match(/v=([^&]+)/) ? query.match(/v=([^&]+)/)[1] : null;
+
+            if (!videoId) {
+                console.error(`Invalid YouTube URL: ${query}`);
+                return;
+            }
+            playYoutubeVideo(videoId, interaction);
         } else {
             // Search for YouTube videos by keyword
             searchYoutube(query, interaction);
@@ -59,20 +65,41 @@ module.exports = {
             adapterCreator: voiceChannel.guild.voiceAdapterCreator,
         });
 
+        const link = `https://www.youtube.com/watch?v=${videoId}`
+
         const player = createAudioPlayer();
-        const stream = ytdl(`https://www.youtube.com/watch?v=${videoId}`, { filter: 'audioonly' });
+        const stream = ytdl(link, { filter: 'audioonly' });
+
         const resource = createAudioResource(stream);
         player.play(resource);
 
         // Subscribe the connection to the audio player (will play audio on the voice connection)
-        const subscription = connection.subscribe(player);
+        connection.subscribe(player);
 
-        // Leave voice channel when there is no activity for two minutes
-        setTimeout(() => {
-            connection.destroy();
-        }
-            , 120000);
+        interaction.reply('Now Playing: ' + videoId);
 
+
+        let timeout;
+        player.on('stateChange', (oldState, newState) => {
+            if (newState.status === 'playing') {
+                clearTimeout(timeout);
+            }
+
+            // Leave voice channel when audio is finished playing and idle for two minutes
+            if (newState.status === 'idle') {
+
+                const timeout = setTimeout(() => {
+                    connection.destroy();
+                }, 120000);
+
+            }
+
+            // Leave voice channel when audio encounters an error
+            if (newState.status === 'error') {
+                console.error(newState.error);
+                connection.destroy();
+            }
+        });
     },
 
     // Search for YouTube videos by keyword and play the first result
@@ -90,5 +117,4 @@ module.exports = {
         // Play the YouTube video
         playYoutubeVideo(videoId, interaction);
     },
-
 };
