@@ -1,5 +1,5 @@
 const ytdl = require('ytdl-core');
-const google = require('googleapis');
+const { google } = require('googleapis');
 
 const youtube = google.youtube({
     version: 'v3',
