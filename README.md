@@ -37,9 +37,9 @@ There is currently one utility, `deploy-commands.js`. Deploy-commands is a manua
 
 ```json
 {
-        "token": "MTA2MDY5NTk1NjMwMTAyMTI1NA.G6qhQ-.Fj5GYr41fr5r04Vh9InxlqMuYqJCR9Xcrm3r2g",
-        "clientId": "1060695956301021254",
-        "guildId": "951595568331886692"
+        "token": "hewuifhwuiefhwuiefhiwuebiwubfiwuefhieuwhf9weuiwheuihwfiwefhw8rh389n",
+        "clientId": "35735735735735735733",
+        "guildId": "317317317317617617"
 }
 ```
 

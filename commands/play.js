@@ -87,8 +87,9 @@ module.exports = {
         }
 
         // Outputthe video title when the bot finds the song
-        getVideoTitle(`https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${videoId}`).then(title => {
+        getVideoTitle(`https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${videoId}&format=json`).then(title => {
             const string = "Now Playing: " + title + "";
+            // try catch around this to catch errors
             interaction.reply(string);
         });
 
