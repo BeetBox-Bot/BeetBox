@@ -13,14 +13,14 @@ A Discord bot that plays audio from YouTube and Spotify links, and searches for 
 
 1. Clone this repository
 2. Run `npm install` to install the required dependencies
-3. Replace 'YOUR_BOT_TOKEN_HERE' in `index.js` with your Discord bot token
-4. Replace 'YOUR_YOUTUBE_API_KEY_HERE' in `services/youtube.js` with your YouTube API key
-5. Replace 'YOUR_SPOTIFY_CLIENT_ID_HERE' and 'YOUR_SPOTIFY_CLIENT_SECRET_HERE' in `services/spotify.js` with your Spotify API client ID and client secret
+3. Replace 'YOUR_BOT_TOKEN_HERE' in a `.env` file with your Discord bot token
+4. Replace 'YOUR_YOUTUBE_API_KEY_HERE' in a `.env` file with your YouTube API key
+5. Replace 'YOUR_SPOTIFY_CLIENT_ID_HERE' and 'YOUR_SPOTIFY_CLIENT_SECRET_HERE' in a `.env` file with your Spotify API client ID and client secret
 
 ## Usage
 
 1. Run `node index.js` to start the bot
-2. In a Discord channel, enter `!play <query>` to search for tracks by keyword or play a YouTube/Spotify link
+2. In a Discord channel, enter `/play <query>` to search for tracks by keyword or play a YouTube/Spotify link
 
 ## Commands
 
