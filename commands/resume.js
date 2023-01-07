@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 
+// unpause does not work for somereason... gotta fix before implementing queue
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('resume')
