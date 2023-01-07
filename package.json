@@ -4,7 +4,8 @@
   "description": "Discord bot to play Spotify and Youtube audio",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "BatteryRage",
   "license": "MIT",
@@ -21,5 +22,8 @@
     "request": "^2.88.2",
     "spotify-web-api-node": "^5.0.2",
     "ytdl-core": "^4.11.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
