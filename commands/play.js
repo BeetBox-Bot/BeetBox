@@ -4,17 +4,17 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const ytdl = require('ytdl-core');
 const { google } = require('googleapis');
 
+// init dotenv and API Keys
 const dotenv = require('dotenv').config({ path: `${__dirname}/../.env` })
-
 const youtube = google.youtube({
     version: 'v3',
     auth: process.env.YOUTUBE_API_KEY,
 });
-
 const spotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET
 });
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -76,8 +76,21 @@ module.exports = {
         // Subscribe the connection to the audio player (will play audio on the voice connection)
         connection.subscribe(player);
 
-        interaction.reply('Now Playing: ' + videoId);
+        async function getVideoTitle(youtubelink) {
+            try {
+                const response = await fetch(youtubelink);
+                const data = await response.json();
+                return data.title;
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
+        // Outputthe video title when the bot finds the song
+        getVideoTitle(`https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${videoId}`).then(title => {
+            const string = "Now Playing: " + title + "";
+            interaction.reply(string);
+        });
 
         let timeout;
         player.on('stateChange', (oldState, newState) => {

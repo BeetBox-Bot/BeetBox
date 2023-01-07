@@ -22,8 +22,8 @@ const client = new Client({
 
 module.exports.client = client;
 
-// Reload slash commands when the bot starts
-sc;
+// Reload slash commands when the bot starts -- use on as need basis
+//sc;
 
 // Prep use of slash commands
 client.commands = new Collection();
