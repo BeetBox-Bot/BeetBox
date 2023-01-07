@@ -53,7 +53,6 @@ There is currently one utility, `deploy-commands.js`. Deploy-commands is a manua
 
 The following features are planned for future development:
 
-- `/stop`: Stop playback and leave the voice channel
 - `/skip`: Skip to the next track in the queue
 - `/nowplaying`: Display the title and artist of the current track
 - `/queue`: Display the list of tracks in the queue
