@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, InteractionCollector } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 const SpotifyWebApi = require('spotify-web-api-node');
 const ytdl = require('ytdl-core');
@@ -27,6 +27,7 @@ module.exports = {
 
 
     async execute(interaction) {
+        await interaction.deferReply();
         const query = interaction.options.getString('query') ?? 'No URL or search provided!';
 
 
@@ -90,7 +91,8 @@ module.exports = {
         getVideoTitle(`https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${videoId}&format=json`).then(async title => {
             const string = "Now Playing: " + title + "";
             // try catch around this to catch errors
-            await interaction.reply(string);
+            await interaction.editReply(string);
+            //await interaction.channel.send(string);
         });
 
         let timeout;
