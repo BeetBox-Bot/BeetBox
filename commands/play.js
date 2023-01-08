@@ -1,8 +1,10 @@
-const { SlashCommandBuilder, InteractionCollector } = require('discord.js');
+const { SlashCommandBuilder, InteractionCollector, ActivityType } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 const SpotifyWebApi = require('spotify-web-api-node');
 const ytdl = require('ytdl-core');
 const { google } = require('googleapis');
+const { client } = require('..');
+//const { client } = require('../index');
 
 // init dotenv and API Keys
 const dotenv = require('dotenv').config({ path: `${__dirname}/../.env` })
@@ -26,11 +28,11 @@ module.exports = {
                 .setRequired(true)),
 
 
-    async execute(interaction) {
+    async execute(interaction, client) {
         await interaction.deferReply();
         const query = interaction.options.getString('query') ?? 'No URL or search provided!';
 
-
+        let songTitle;
         // Check if the query is a YouTube URL
         if (query.includes('youtube.com') || query.includes('youtu.be')) {
             // Get the videoId from the YouTube URL
@@ -40,15 +42,15 @@ module.exports = {
                 console.error(`Invalid YouTube URL: ${query}`);
                 return;
             }
-            playYoutubeVideo(videoId, interaction);
+            songTitle = playYoutubeVideo(videoId, interaction, client);
         } else {
             // Search for YouTube videos by keyword
-            searchYoutube(query, interaction);
+            songTitle = searchYoutube(query, interaction, client);
         }
     },
 
     // Play the audio of a YouTube video
-    const: playYoutubeVideo = (videoId, interaction) => {
+    const: playYoutubeVideo = (videoId, interaction, client) => {
 
         // Get the user's voice channel
         const voiceChannel = interaction.member.voice.channel;
@@ -88,12 +90,15 @@ module.exports = {
         }
 
         // Outputthe video title when the bot finds the song
-        getVideoTitle(`https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${videoId}&format=json`).then(async title => {
+        async function  updateActivity(client) {
+            let title = await getVideoTitle(`https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${videoId}&format=json`);
             const string = "Now Playing: " + title + "";
-            // try catch around this to catch errors
+            client.user.setActivity(title, { type: ActivityType.Playing });
             await interaction.editReply(string);
-            //await interaction.channel.send(string);
-        });
+        }
+
+        updateActivity(client);
+
 
         let timeout;
         player.on('stateChange', (oldState, newState) => {
@@ -116,10 +121,11 @@ module.exports = {
                 connection.destroy();
             }
         });
+
     },
 
     // Search for YouTube videos by keyword and play the first result
-    const: searchYoutube = async (query, interaction) => {
+    const: searchYoutube = async (query, interaction, client) => {
         // Search for YouTube videos
         const response = await youtube.search.list({
             part: 'id',
@@ -131,6 +137,6 @@ module.exports = {
         const videoId = response.data.items[0].id.videoId;
 
         // Play the YouTube video
-        playYoutubeVideo(videoId, interaction);
+        playYoutubeVideo(videoId, interaction, client);
     },
 };

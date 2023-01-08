@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 
 const sc = require('./utilities/deploy-commands');
 
@@ -54,7 +54,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 
 	try {
-		await command.execute(interaction);
+		await command.execute(interaction, client);
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -63,6 +63,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+	client.user.setActivity("the bois", { type: ActivityType.Listening });
 });
 
 client.login(process.env.BOT_TOKEN);
