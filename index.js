@@ -3,6 +3,8 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 
 const sc = require('./utilities/deploy-commands');
+const Queue = require('./models/queue');
+global.queue = new Queue();
 
 // Load the .env file
 const dotenv = require('dotenv').config();

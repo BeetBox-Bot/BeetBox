@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,20 +16,7 @@ module.exports = {
                 return;
             }
         
-            // Join the user's voice channel
-            const connection = joinVoiceChannel({
-                channelId: voiceChannel.id,
-                guildId: voiceChannel.guild.id,
-                adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-            });
-        
-            // Pause audio playback
-            const player = createAudioPlayer();
-            player.pause();
-        
-            // Subscribe the connection to the audio player (will pause audio on the voice connection)
-            connection.subscribe(player);
-        
-            interaction.reply('Paused audio playback.');
+            global.queue.pause();
+            interaction.reply('Playback paused.');
         },
 };
