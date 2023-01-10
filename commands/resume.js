@@ -18,5 +18,6 @@ module.exports = {
         }
 
         global.queue.unpause();
+        interaction.reply('Playback resumed.');
     },
 };

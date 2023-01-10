@@ -17,5 +17,6 @@ module.exports = {
             }
         
             global.queue.pause();
+            interaction.reply('Playback paused.');
         },
 };
