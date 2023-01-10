@@ -17,22 +17,6 @@ module.exports = {
             return;
         }
 
-        // Join the user's voice channel
-        const connection = joinVoiceChannel({
-            channelId: voiceChannel.id,
-            guildId: voiceChannel.guild.id,
-            adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-        });
-
-        // Get the audio player
-        const player = createAudioPlayer();
-
-        // Subscribe the connection to the audio player (will play audio on the voice connection)
-        connection.subscribe(player);
-
-        // Resume the audio
-        player.unpause();
-
-        interaction.reply('Resuming audio...');
+        global.queue.unpause();
     },
 };

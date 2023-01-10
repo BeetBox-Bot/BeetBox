@@ -15,11 +15,6 @@ module.exports = {
                 interaction.reply('You must be in a voice channel to stop music!');
                 return;
             }
-        
-            // Leave the current voice channel
-	    const connection = getVoiceConnection(interaction.guildId);
-	    connection.destroy();
-        
-            interaction.reply('I\'m out!');
+            global.queue.stop();
         },
 };
