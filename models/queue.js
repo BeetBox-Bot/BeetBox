@@ -16,7 +16,6 @@ class Queue {
         song.title = title;
         this.songs.push(song);
         await interaction.editReply(`Added ${title} to queue!`);
-        console.log(this.songs)
 
         // If this is the first song, play it
         if (song === this.getTop())
@@ -34,7 +33,8 @@ class Queue {
 
     async nextSong(interaction) {
         this.pop();
-        await this.start(interaction);
+        if (this.songs.length > 0)
+            await this.start(interaction);
     }
 
     isEmpty() {
