@@ -30,8 +30,6 @@ class Youtube extends Song {
     }
 
     async play (interaction) {
-        //this.title = await Youtube.getTitle(`https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${this.videoId}&format=json`);
-        //sconsole.log(`TITLE ${this.title}`)
         this.stream = ytdl(this.link, { filter: 'audioonly' });
         await super.play(interaction);
     }
