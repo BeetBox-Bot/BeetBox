@@ -35,7 +35,7 @@ jobs:
       id: create-json
       with:
         name: "config.json"
-        json: '{"token": "${{ secrets.BOT_TOKEN }}", "clientId": "${{ secrets.CLIENTID }}", "guildId": "${{ secrets.GUILD_ID_DUMMY_THICC }}"'
+        json: '{"token": "${{ secrets.BOT_TOKEN }}", "clientId": "${{ secrets.CLIENTID }}", "guildId": "${{ secrets.GUILD_ID_DUMMY_THICC }}"}'
         dir: "utilities/" 
 
     - name: Use Node.js ${{ matrix.node-version }}
