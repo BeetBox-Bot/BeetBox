@@ -66,6 +66,10 @@ class Queue {
         await this.getTop().stop();
         this.songs = [];
     }
+
+    list() {
+        return this.songs.map((s) => s.title);
+    }
 }
 
 module.exports = Queue;
