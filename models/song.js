@@ -9,9 +9,10 @@ class Song {
         this.connection = {};
     }
 
-    async play (interaction) {
+    async play (interaction, volume=1) {
         // We have to create this.stream in the child class play() function before calling this, or this.stream will be {}
-        this.resource = createAudioResource(this.stream);
+        this.resource = createAudioResource(this.stream, { inlineVolume: true });
+        this.resource.volume.setVolume(volume);
         this.player.play(this.resource);
 
         // Subscribe the connection to the audio player (will play audio on the voice connection)
