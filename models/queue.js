@@ -45,6 +45,12 @@ class Queue {
         return this.songs[0];
     }
 
+    getNext() {
+        if (this.songs.length < 2)
+            return null;
+        return this.songs[1];
+    }
+
     async pause() {
         this.state = 'paused';
         await this.getTop().pause();
