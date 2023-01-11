@@ -58,15 +58,19 @@ class Queue {
         await this.getTop().pause();
     }
 
-    async unpause(interction) {
+    async unpause() {
         this.state = 'playing';
         await this.getTop().unpause();
     }
 
-    async stop(interaction) {
+    async stop() {
         this.state = 'stopped';
         await this.getTop().stop();
         this.songs = [];
+    }
+
+    async skip(interaction) {
+        await this.nextSong(interaction);
     }
 
     list() {
