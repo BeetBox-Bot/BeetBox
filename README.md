@@ -65,8 +65,6 @@ There is currently one utility, `deploy-commands.js`. Deploy-commands is a manua
 
 The following features are planned for future development:
 
-- `/add <query>`: Search for tracks and add them to the queue
-- `/volume <level>`: Set the volume level for playback
 - `/lyrics`: Display the lyrics of the current track
 - `/playlist <name>`: Create and save a playlist of tracks
 
