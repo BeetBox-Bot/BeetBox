@@ -71,6 +71,7 @@ The following features are planned for future development:
 
 - The addition of spotify music to be played
 - The content agnostic queue, where spotify and youtube tracks can coexist in a single queue
+- Allowing different queues for different guilds
 
 ## License
 
