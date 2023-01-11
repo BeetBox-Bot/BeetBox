@@ -1,3 +1,4 @@
+const { ActivityType } = require('discord.js');
 const { createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 
 class Song {
@@ -43,6 +44,7 @@ class Song {
 
         // Output the video title
         await interaction.client.channels.cache.get(interaction.channelId).send(`Now Playing: ${this.title}`);
+        interaction.client.user.setActivity(this.title, { type: ActivityType.Playing });
     }
 
     async pause () {
@@ -53,8 +55,9 @@ class Song {
         this.player.unpause();
     }
 
-    async stop () {
+    async stop (interaction) {
         this.connection.destroy();
+        interaction.client.user.setActivity();
     }
 };
 

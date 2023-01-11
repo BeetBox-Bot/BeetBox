@@ -15,7 +15,7 @@ module.exports = {
                 interaction.reply('You must be in a voice channel to stop music!');
                 return;
             }
-            global.queue.stop();
+            global.queue.stop(interaction);
             interaction.reply('Playback stopped.');
         },
 };
