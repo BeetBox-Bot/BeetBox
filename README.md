@@ -31,7 +31,7 @@ SPOTIFY_CLIENT_SECRET=${{ YOUR_SPOTIFY_CLIENT_SECRET_HERE }}
 
 ## Commands
 
-- `/play <query>`: Search for tracks by keyword or play a YouTube/Spotify link
+- `/play <query>`: Search for tracks by keyword or play a YouTube/Spotify link (if a song is playing, adds new song to the queue)
 - `/pause` : Pause the currently playing track
 - `/resume` : Resume playback of the current track
 - `/stop` : Stop playback of current track, dump the queue, and destroy the audio connection and disconnect from voice chat
