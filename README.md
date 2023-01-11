@@ -38,6 +38,7 @@ SPOTIFY_CLIENT_SECRET=${{ YOUR_SPOTIFY_CLIENT_SECRET_HERE }}
 - `/skip`: Skip to the next track in the queue
 - `/nowplaying`: Display the title and artist of the current track
 - `/queue`: Display the list of tracks in the queue
+- `/volume <level>`: Set the volume level for playback
 
 ## Utilities
 
@@ -65,8 +66,6 @@ There is currently one utility, `deploy-commands.js`. Deploy-commands is a manua
 
 The following features are planned for future development:
 
-- `/add <query>`: Search for tracks and add them to the queue
-- `/volume <level>`: Set the volume level for playback
 - `/lyrics`: Display the lyrics of the current track
 - `/playlist <name>`: Create and save a playlist of tracks
 
