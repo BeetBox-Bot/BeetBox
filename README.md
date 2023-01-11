@@ -38,6 +38,7 @@ SPOTIFY_CLIENT_SECRET=${{ YOUR_SPOTIFY_CLIENT_SECRET_HERE }}
 - `/skip`: Skip to the next track in the queue
 - `/nowplaying`: Display the title and artist of the current track
 - `/queue`: Display the list of tracks in the queue
+- `/volume <level>`: Set the volume level for playback
 
 ## Utilities
 
