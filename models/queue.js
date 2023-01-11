@@ -8,6 +8,7 @@ class Queue {
         this.songs = [];
         this.channel = {}
         this.state = 'idle';
+        this.volume = 1;
     }
 
     async push(song, interaction) {
@@ -30,7 +31,7 @@ class Queue {
     }
 
     async start(interaction) {
-        await this.getTop().play(interaction);
+        await this.getTop().play(interaction, this.volume);
     }
 
     async nextSong(interaction) {
@@ -75,6 +76,13 @@ class Queue {
 
     list() {
         return this.songs.map((s) => s.title);
+    }
+
+    async setVolume(volume) {
+        this.volume = volume;
+        await this.pause();
+        this.getTop().resource.volume.setVolume(this.volume);
+        await this.unpause();
     }
 }
 
