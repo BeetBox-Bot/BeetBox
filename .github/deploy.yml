@@ -5,12 +5,14 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
 
 env: 
   PRODUCTION: true
   ENV_KEY_PROJECT_NAME: BeetBox dotenv
 
 jobs:
+
   build:
 
     runs-on: self-hosted
