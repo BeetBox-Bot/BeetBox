@@ -30,7 +30,6 @@ class Queue {
     }
 
     async start(interaction) {
-        console.log(`Playing ${this.getTop().title}`);
         await this.getTop().play(interaction);
     }
 

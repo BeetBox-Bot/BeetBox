@@ -8,7 +8,6 @@ module.exports = {
 
         async execute(interaction) {
             let songs = global.queue.list();
-            console.log(songs);
             let resp = "`";
             for (let i = 0; i < songs.length; i++) {
                 resp += `${i+1}. ${songs[i]}\n`;
