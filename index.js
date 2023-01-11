@@ -65,7 +65,6 @@ client.on(Events.InteractionCreate, async interaction => {
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-	client.user.setActivity("the bois", { type: ActivityType.Listening });
 });
 
 client.login(process.env.BOT_TOKEN);
