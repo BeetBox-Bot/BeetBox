@@ -6,7 +6,7 @@ class Queue {
      */
     constructor() {
         this.songs = [];
-        this.channel = {};
+        this.channel = {}
         this.state = 'idle';
     }
 
@@ -15,11 +15,14 @@ class Queue {
         const title = await Youtube.getTitle(song.link);
         song.title = title;
         this.songs.push(song);
-        await interaction.editReply(`Added ${title} to queue!`);
 
         // If this is the first song, play it
-        if (song === this.getTop())
-            await this.start(interaction); 
+        if (song === this.getTop()) {
+            await this.start(interaction);
+            await interaction.editReply('.'); 
+        }
+        else
+            await interaction.editReply(`Added ${title} to queue!`); 
     }
 
     pop() {
