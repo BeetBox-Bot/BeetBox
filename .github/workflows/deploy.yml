@@ -1,0 +1,45 @@
+name: Deploy
+
+on:
+#   push:
+#     branches: [ "master" ]
+#   pull_request:
+#     branches: [ "master" ]
+  workflow_dispatch:
+
+env: 
+  PRODUCTION: true
+  ENV_KEY_PROJECT_NAME: BeetBox dotenv
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Create dotenv
+      uses: iamsauravsharma/create-dotenv@v1.2.2
+      env:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+        SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+
+    - name: Create config.json
+      uses: jsdaniell/create-json@v1.2.2
+      id: create-json
+      with:
+        name: "config.json"
+        json: '{"token": "${{ secrets.BOT_TOKEN }}", "clientId": "${{ secrets.CLIENTID }}", "guildId": "${{ secrets.GUILD_ID_DUMMY_THICC }}"}'
+        dir: "utilities/" 
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run start

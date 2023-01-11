@@ -3,8 +3,8 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('pause')
-        .setDescription('Pauses audio playback.'),
+        .setName('nowplaying')
+        .setDescription('Returns the currently playing song.'),
 
         async execute(interaction) {
             // Get the user's voice channel
@@ -12,11 +12,11 @@ module.exports = {
         
             // Check if the user is in a voice channel
             if (!voiceChannel) {
-                interaction.reply('You must be in a voice channel to pause music!');
+                interaction.reply('You must be in a voice channel to see what\'s playing!');
                 return;
             }
         
-            global.queue.pause();
-            interaction.reply('Playback paused.');
+            //global.queue.pause();
+            interaction.reply('Currently Playing: ' + global.queue.getTop().title);
         },
 };

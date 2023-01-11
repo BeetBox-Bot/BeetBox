@@ -1,6 +1,6 @@
 # BeetBox
 
-A Discord bot that plays audio from YouTube and Spotify links, and searches for tracks by keyword.
+A Discord bot that plays audio from YouTube URLs and Youtube query searches. This bot can queue music that is added via search or direct URL. 
 
 ## Prerequisites
 
@@ -17,6 +17,13 @@ A Discord bot that plays audio from YouTube and Spotify links, and searches for 
 4. Replace 'YOUR_YOUTUBE_API_KEY_HERE' in a `.env` file with your YouTube API key
 5. Replace 'YOUR_SPOTIFY_CLIENT_ID_HERE' and 'YOUR_SPOTIFY_CLIENT_SECRET_HERE' in a `.env` file with your Spotify API client ID and client secret
 
+```
+BOT_TOKEN=${{ YOUR_BOT_TOKEN_HERE }}
+YOUTUBE_API_KEY=${{ YOUR_YOUTUBE_API_KEY_HERE }}
+SPOTIFY_CLIENT_ID=${{ YOUR_SPOTIFY_CLIENT_ID_HERE }}
+SPOTIFY_CLIENT_SECRET=${{ YOUR_SPOTIFY_CLIENT_SECRET_HERE }}
+```
+
 ## Usage
 
 1. Run `node index.js` to start the bot
@@ -24,8 +31,13 @@ A Discord bot that plays audio from YouTube and Spotify links, and searches for 
 
 ## Commands
 
-- `/play <query>`: Search for tracks by keyword or play a YouTube/Spotify link
+- `/play <query>`: Search for tracks by keyword or play a YouTube/Spotify link (if a song is playing, adds new song to the queue)
 - `/pause` : Pause the currently playing track
+- `/resume` : Resume playback of the current track
+- `/stop` : Stop playback of current track, dump the queue, and destroy the audio connection and disconnect from voice chat
+- `/skip`: Skip to the next track in the queue
+- `/nowplaying`: Display the title and artist of the current track
+- `/queue`: Display the list of tracks in the queue
 
 ## Utilities
 
@@ -37,9 +49,9 @@ There is currently one utility, `deploy-commands.js`. Deploy-commands is a manua
 
 ```json
 {
-        "token": "hewuifhwuiefhwuiefhiwuebiwubfiwuefhieuwhf9weuiwheuihwfiwefhw8rh389n",
-        "clientId": "35735735735735735733",
-        "guildId": "317317317317617617"
+        "token": "${{ YOUR_BOT_TOKEN_HERE }}",
+        "clientId": "${{ YOUR_CLIENT_ID_HERE }}",
+        "guildId": "${{ YOUR_GUILD_ID_HERE }}"
 }
 ```
 
@@ -53,16 +65,13 @@ There is currently one utility, `deploy-commands.js`. Deploy-commands is a manua
 
 The following features are planned for future development:
 
-- `/skip`: Skip to the next track in the queue
-- `/nowplaying`: Display the title and artist of the current track
-- `/queue`: Display the list of tracks in the queue
-- `/resume`: Resume playback
-- `/seek <time>`: Seek to a specific time within the current track
 - `/add <query>`: Search for tracks and add them to the queue
 - `/volume <level>`: Set the volume level for playback
 - `/lyrics`: Display the lyrics of the current track
 - `/playlist <name>`: Create and save a playlist of tracks
-- Queue functionality: The ability to queue mixed playlists of Spotify and YouTube tracks
+
+- The addition of spotify music to be played
+- The content agnostic queue, where spotify and youtube tracks can coexist in a single queue
 
 ## License
 
