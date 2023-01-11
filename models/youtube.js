@@ -30,7 +30,10 @@ class Youtube extends Song {
     }
 
     async play (interaction) {
-        this.stream = ytdl(this.link, { filter: 'audioonly' });
+        this.stream = ytdl(this.link, { 
+            filter: 'audioonly',
+            quality: 'highestaudio'
+        });
         await super.play(interaction);
     }
 
