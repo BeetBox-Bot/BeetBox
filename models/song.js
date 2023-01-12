@@ -20,6 +20,7 @@ class Song {
         this.connection.subscribe(this.player);
         
         let timeout;
+        
         this.player.on('stateChange', async (oldState, newState) => {
             this.status = newState.status;
             if (newState.status === 'playing') {
@@ -30,17 +31,20 @@ class Song {
             // TODO move this to Queue
             if (newState.status === 'idle') {
                 await global.queue.nextSong(interaction);
-                const timeout = setTimeout(() => {
-                    this.connection.destroy();
-                }, 120000);
+                //const timeout = setTimeout(() => {
+                //    console.log("Leaving voice channel due to inactivity");
+                //    this.connection.destroy();
+                //}, 120000);
             }
 
             // Leave voice channel when audio encounters an error
             if (newState.status === 'error') {
                 console.error(newState.error);
+                console.log("Leaving voice channel due to error");
                 this.connection.destroy();
             }
         });
+        
 
         // Output the video title
         await interaction.client.channels.cache.get(interaction.channelId).send(`Now Playing: ${this.title}`);
@@ -55,9 +59,9 @@ class Song {
         this.player.unpause();
     }
 
-    async stop (interaction) {
+    async stop () {
+        console.log("Leaving voice channel due to stop command");
         this.connection.destroy();
-        interaction.client.user.setActivity();
     }
 };
 
