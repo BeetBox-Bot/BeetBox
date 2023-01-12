@@ -77,9 +77,9 @@ class Queue {
         await this.getTop().unpause();
     }
 
-    async stop() {
+    async stop(interaction) {
         this.state = 'stopped';
-        await this.getTop().stop();
+        await this.getTop().stop(interaction);
         this.songs = [];
     }
 
