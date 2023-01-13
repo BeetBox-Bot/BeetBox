@@ -1,45 +1,43 @@
-name: Deploy
+name: Create and Publish Docker Image
 
 on:
-#   push:
-#     branches: [ "master" ]
-#   pull_request:
-#     branches: [ "master" ]
+  push:
+    branches: ["master"]
   workflow_dispatch:
 
-env: 
-  PRODUCTION: true
-  ENV_KEY_PROJECT_NAME: BeetBox dotenv
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-
-  build:
-
+  push_to_docker_registry:
+    name: Push Docker image to Docker Hub
     runs-on: self-hosted
+    permissions:
+      contents: read
+      packages: write
 
     steps:
-    - uses: actions/checkout@v3
+      - name: Check out the repo
+        uses: actions/checkout@v3
 
-    - name: Create dotenv
-      uses: iamsauravsharma/create-dotenv@v1.2.2
-      env:
-        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-        YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
-        SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
-    - name: Create config.json
-      uses: jsdaniell/create-json@v1.2.2
-      id: create-json
-      with:
-        name: "config.json"
-        json: '{"token": "${{ secrets.BOT_TOKEN }}", "clientId": "${{ secrets.CLIENTID }}", "guildId": "${{ secrets.GUILD_ID_DUMMY_THICC }}"}'
-        dir: "utilities/" 
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run start
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
