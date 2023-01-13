@@ -9,7 +9,6 @@ class Queue {
         this.channel = {}
         this.state = 'idle';
         this.volume = 1;
-        this.connection = {};
     }
 
     async push(song, interaction) {
@@ -17,7 +16,6 @@ class Queue {
         const title = await Youtube.getTitle(song.link);
         song.title = title;
         this.songs.push(song);
-        this.connection = song.connection;
 
         // If this is the first song, play it
         if (song === this.getTop()) {
@@ -49,7 +47,8 @@ class Queue {
             await this.start(interaction);
         else {
             console.log("Leaving voice channel because queue is empty");
-            this.connection.destroy();
+            // const connection = getVoiceConnection(interaction.guildId);
+            // connection.destroy();
         }
     }
 
@@ -67,14 +66,14 @@ class Queue {
         return this.songs[1];
     }
 
-    async pause() {
+    async pause(interaction) {
         this.state = 'paused';
-        await this.getTop().pause();
+        await this.getTop().pause(interaction);
     }
 
-    async unpause() {
+    async unpause(interaction) {
         this.state = 'playing';
-        await this.getTop().unpause();
+        await this.getTop().unpause(interaction);
     }
 
     async stop(interaction) {
