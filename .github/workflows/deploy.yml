@@ -1,4 +1,4 @@
-name: Deploy
+name: Create and Publish Docker Image
 
 on:
   push:
@@ -13,6 +13,9 @@ jobs:
   push_to_docker_registry:
     name: Push Docker image to Docker Hub
     runs-on: self-hosted
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Check out the repo
