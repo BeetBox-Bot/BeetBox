@@ -9,6 +9,7 @@ jobs:
   push_to_docker_registry:
     name: Push Docker image to Docker Hub
     runs-on: self-hosted
+    container: node:18
 
     steps:
       - name: Check out the repo
