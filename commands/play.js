@@ -3,6 +3,7 @@ const { joinVoiceChannel } = require('@discordjs/voice');
 
 const { Youtube, searchYoutube } = require('../models/youtube');
 const { getTrackName } = require('../models/spotify');
+const Song = require('../models/song');
 
 
 module.exports = {
@@ -55,16 +56,23 @@ module.exports = {
         }
         else {
             // Search for YouTube videos by keyword
-            // TODO something smart if there's no result
-            song = new Youtube(await searchYoutube(query));
+            const ytId = await searchYoutube(query);
+            if (ytId === null) {
+                song = {};
+                await interaction.editReply('An error occurred, you\'ve likely exceeded your YouTube search quota. Please try again later.');
+            }
+            else
+                song = new Youtube(ytId);
         }
 
-        song.connection = connection;
-        try {
-            global.queue.push(song, interaction);
-        }
-        catch (e) {
-            console.log(e);
+        if(song instanceof Song) {
+            song.connection = connection;
+            try {
+                global.queue.push(song, interaction);
+            }
+            catch (e) {
+                console.log(e);
+            }
         }
     }
 };

@@ -18,7 +18,7 @@ const getTrackName = async (id) => {
 
 const getPlaylist = async (id) => {
     spotifyApi.setAccessToken(await getToken());
-    return (await spotifyApi.getPlaylist(id)).items;
+    return (await spotifyApi.getPlaylist(id)).body.tracks.items;
 }
 
 module.exports = {
