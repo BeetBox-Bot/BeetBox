@@ -1,4 +1,7 @@
+const { EmbedBuilder } = require('discord.js');
 const { Youtube } = require('./youtube');
+
+const { baseEmbed } = require('../utilities/embed');
 
 class Queue {
     /**
@@ -16,14 +19,15 @@ class Queue {
         const title = await Youtube.getTitle(song.link);
         song.title = title;
         this.songs.push(song);
+        const emb = EmbedBuilder.from(baseEmbed);
 
         // If this is the first song, play it
-        if (song === this.getTop()) {
+        if (song === this.getTop())
             await this.start(interaction);
-            await interaction.editReply('.'); 
-        }
-        else
-            await interaction.editReply(`Added ${title} to queue!`); 
+        emb.addFields(
+            { name: 'Now Playing', value: this.title },
+        );
+        await interaction.editReply({embeds: [emb]}); 
     }
 
     pop() {

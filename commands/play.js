@@ -1,8 +1,9 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
 
 const { Youtube, searchYoutube } = require('../models/youtube');
 const Spotify = './models/spotify';
+const { baseEmbed } = require('../utilities/embed');
 
 
 module.exports = {
@@ -21,7 +22,11 @@ module.exports = {
 
         // Check if the user is in a voice channel
         if (!voiceChannel) {
-            interaction.reply('You must be in a voice channel to play music!');
+            const emb = EmbedBuilder.from(baseEmbed);
+            emb.addFields(
+                { name: 'Error', value: 'You must be in a voice channel to play music!' },
+            )
+            interaction.reply({embeds: [emb]});
             return;
         }
 

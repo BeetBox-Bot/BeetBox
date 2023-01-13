@@ -1,5 +1,7 @@
-const { ActivityType } = require('discord.js');
+const { ActivityType, EmbedBuilder } = require('discord.js');
 const { createAudioPlayer, createAudioResource } = require('@discordjs/voice');
+
+const { baseEmbed } = require('../utilities/embed');
 
 class Song {
     constructor () {
@@ -43,7 +45,11 @@ class Song {
         });
 
         // Output the video title
-        await interaction.client.channels.cache.get(interaction.channelId).send(`Now Playing: ${this.title}`);
+        const emb = EmbedBuilder.from(baseEmbed);
+        emb.addFields(
+            { name: 'Now Playing', value: this.title },
+        )
+        await interaction.client.channels.cache.get(interaction.channelId).send({embeds: [emb]});
         interaction.client.user.setActivity(this.title, { type: ActivityType.Playing });
     }
 
