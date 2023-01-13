@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { joinVoiceChannel } = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioPlayer } = require('@discordjs/voice');
 
 const { Youtube, searchYoutube } = require('../models/youtube');
 const Spotify = './models/spotify';
@@ -19,6 +19,7 @@ module.exports = {
         // Get the user's voice channel
         const voiceChannel = interaction.member.voice.channel;
 
+
         // Check if the user is in a voice channel
         if (!voiceChannel) {
             interaction.reply('You must be in a voice channel to play music!');
@@ -26,11 +27,20 @@ module.exports = {
         }
 
         // Join the user's voice channel
-        const connection = joinVoiceChannel({
-            channelId: voiceChannel.id,
-            guildId: voiceChannel.guild.id,
-            adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-        });
+        // const connection = joinVoiceChannel({
+
+        if (!interaction.connection){
+            interaction.connection = joinVoiceChannel({
+                channelId: voiceChannel.id,
+                guildId: voiceChannel.guild.id,
+                adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+            });
+        }
+
+        if (!interaction.connection.player){
+            interaction.connection.player = createAudioPlayer()
+            interaction.connection.subscribe(interaction.connection.player);
+        }
 
         await interaction.deferReply();
         const query = interaction.options.getString('query') ?? 'No URL or search provided!';
@@ -53,7 +63,6 @@ module.exports = {
             song = new Youtube(await searchYoutube(query));
         }
 
-        song.connection = connection;
         try {
             global.queue.push(song, interaction);
         }

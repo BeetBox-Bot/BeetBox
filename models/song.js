@@ -1,27 +1,24 @@
 const { ActivityType } = require('discord.js');
-const { createAudioPlayer, createAudioResource } = require('@discordjs/voice');
+const { getVoiceConnection, createAudioResource } = require('@discordjs/voice');
 
 class Song {
     constructor () {
-        this.player = createAudioPlayer();
         this.resource = {};
         this.stream = {};
         this.status = 'unplayed';
-        this.connection = {};
     }
 
     async play (interaction, volume=1) {
         // We have to create this.stream in the child class play() function before calling this, or this.stream will be {}
         this.resource = createAudioResource(this.stream, { inlineVolume: true });
         this.resource.volume.setVolume(volume);
-        this.player.play(this.resource);
-
-        // Subscribe the connection to the audio player (will play audio on the voice connection)
-        this.connection.subscribe(this.player);
+        
+        const connection = getVoiceConnection(interaction.guildId);
+        connection.player.play(this.resource);
         
         let timeout;
         
-        this.player.on('stateChange', async (oldState, newState) => {
+        connection.player.on('stateChange', async (oldState, newState) => {
             this.status = newState.status;
             if (newState.status === 'playing') {
                 clearTimeout(timeout);
@@ -41,7 +38,7 @@ class Song {
             if (newState.status === 'error') {
                 console.error(newState.error);
                 console.log("Leaving voice channel due to error");
-                this.connection.destroy();
+                interaction.connection.destroy();
             }
         });
         
@@ -51,17 +48,20 @@ class Song {
         interaction.client.user.setActivity(this.title, { type: ActivityType.Playing });
     }
 
-    async pause () {
-        this.player.pause();
+    async pause (interaction) {
+        const connection = getVoiceConnection(interaction.guildId);
+        connection.player.pause();
     }
 
-    async unpause() {
-        this.player.unpause();
+    async unpause(interaction) {
+        const connection = getVoiceConnection(interaction.guildId);
+        connection.player.unpause();
     }
 
-    async stop () {
+    async stop (interaction) {
         console.log("Leaving voice channel due to stop command");
-        this.connection.destroy();
+        const connection = getVoiceConnection(interaction.guildId);
+        connection.destroy();
     }
 };
 
