@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
+        
+      - name: Stop and remove all containers
+        run: |
+          docker stop $(docker ps -a -q)
+          docker rm $(docker ps -a -q)
 
       - name: Build BeetBox
         run: docker build -t beetbox:1.0.0 .
