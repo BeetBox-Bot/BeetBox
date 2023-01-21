@@ -1,0 +1,19 @@
+name: Create and Publish Docker Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Update BeetBox
+    runs-on: beetbox
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Build BeetBox
+        run: docker build -t beetbox:1.0.0 .
+        
+      - name: Run BeetBox
+        run: docker run -d beetbox:1.0.0
