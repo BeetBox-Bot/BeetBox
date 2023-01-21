@@ -16,4 +16,4 @@ jobs:
         run: docker-compose down
         
       - name: Run BeetBox
-        run: docker-compose -d up
+        run: docker-compose up -d
