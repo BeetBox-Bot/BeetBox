@@ -14,9 +14,6 @@ jobs:
         
       - name: Bring BeetBox down
         run: docker-compose down
-
-      - name: Build BeetBox
-        run: docker build -t beetbox:1.0.0 .
         
       - name: Run BeetBox
         run: docker-compose up
