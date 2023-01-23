@@ -15,7 +15,6 @@ for (const file of commandFiles) {
 }
 
 // Construct and prepare an instance of the REST module
-console.log(process.env.BOT_TOKEN);
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
 
 // and deploy your commands!
@@ -23,7 +22,6 @@ const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-		console.log(process.env.BOT_CLIENT_ID);
 		// The put method is used to fully refresh all commands globally with the current set
 		 const data = await rest.put(
 		 	Routes.applicationCommands(process.env.BOT_CLIENT_ID),
