@@ -46,6 +46,6 @@ jobs:
           context: .
           push: true
           # change this tag to 1.0.0 to deploy it to the EC2
-          tags: 'beetbox/beetbox:develop'
+          tags: 'beetbox/beetbox:1.0.0'
 #           tags: ${{ steps.meta.outputs.tags }}
 #           labels: ${{ steps.meta.outputs.labels }}
